@@ -15,6 +15,8 @@ window = t.Screen()
 window.title('ColumnD - Game Of Trons')
 window.bgcolor('black')
 window.setup(width=600, height=400)
+window.setup(width=600, height=400)
+window.cv._rootwindow.resizable(False, False)
 
 # Global variables for player position
 player_x = 0
