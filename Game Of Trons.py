@@ -1,20 +1,18 @@
 import turtle as t
-import random
-import time
-import sys
 import pygame
+import time
 
 # Initialize pygame mixer
 pygame.mixer.init()
 
-# Load sound
-explosion_sound = pygame.mixer.Sound("boom.mp3")  # Replace with your sound file path
+# Load sounds
+explosion_sound = pygame.mixer.Sound("boom.mp3")  # Replace with your explosion sound file path
+shoot_sound = pygame.mixer.Sound("shoot.mp3")     # Replace with your shoot sound file path
 
 # Setup the screen
 window = t.Screen()
 window.title('ColumnD - Game Of Trons')
 window.bgcolor('black')
-window.setup(width=600, height=400)
 window.setup(width=600, height=400)
 window.cv._rootwindow.resizable(False, False)
 
@@ -36,13 +34,17 @@ def player_left():
 
 # Function to create and move the bullet
 def shoot_bullet():
+
     bullet = player.clone()
-    bullet.shape("triangle")
+    bullet.shape("circle")
     bullet.color("white")
     bullet.shapesize(stretch_wid=0.5, stretch_len=1)
     bullet.setheading(90)
     bullet.showturtle()
 
+    # Play shoot sound
+    shoot_sound.play()
+    
     # Move bullet upwards
     bullet_speed = 30
     def move_bullet():
@@ -61,13 +63,13 @@ def shoot_bullet():
                 window.bgcolor('black')
                 go_turtle = t.Turtle()
                 go_turtle.color('red')
-                go_turtle.write("GAME OVER", align="center", font=("Arial", 36, "bold"))
+                go_turtle.write("<YOU WON/>", align="center", font=("Arial", 48, "bold"))
                 go_turtle.hideturtle()
 
-                time.sleep(2)
+                time.sleep(3)
                 go_turtle.clear()
                 go_turtle.write("Developer : Artin khodayari", align="center", font=('Arial', 24, "italic"))
-                time.sleep(3)
+                time.sleep(1)
                 window.bye()
             else:
                 window.ontimer(move_bullet, 50)
@@ -78,7 +80,8 @@ def shoot_bullet():
 
 # Function to move enemy
 def move_enemy():
-    enemy_speed = 2
+    global enemy_speed
+    enemy_speed = 5
     new_x = enemy.xcor() + enemy_speed * enemy.direction
     if new_x > 300 or new_x < -300:
         enemy.direction *= -1
